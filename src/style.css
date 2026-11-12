@@ -225,3 +225,115 @@ button { cursor: pointer; }
 @media (prefers-reduced-motion:reduce) {
   *,*::before,*::after { scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important; }
 }
+
+/* ===== Animated waves and floating portfolio showcase ===== */
+
+/* Keep the showcase layers organised */
+.showcase {
+  isolation: isolate;
+}
+
+.template-stage {
+  z-index: 2;
+  transform: scale(.90);
+}
+
+/* Flowing background waves */
+.showcase::before,
+.showcase::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  width: 150%;
+  height: 210px;
+  left: -25%;
+  border: 2px solid rgba(181, 138, 203, .25);
+  border-radius: 48%;
+  filter: drop-shadow(0 0 15px rgba(181, 138, 203, .16));
+}
+
+.showcase::before {
+  bottom: 5px;
+  transform: rotate(-5deg);
+  animation: waveFlow 11s ease-in-out infinite alternate;
+  box-shadow:
+    0 -14px 0 -12px rgba(242, 174, 67, .35),
+    0 -32px 0 -30px rgba(181, 138, 203, .3);
+}
+
+.showcase::after {
+  bottom: -35px;
+  transform: rotate(5deg);
+  animation: waveFlowReverse 14s ease-in-out infinite alternate;
+  box-shadow:
+    0 -18px 0 -16px rgba(181, 138, 203, .3),
+    0 -40px 0 -38px rgba(242, 174, 67, .2);
+}
+
+@keyframes waveFlow {
+  from { transform: translateX(-3%) rotate(-5deg); }
+  to   { transform: translateX(3%) rotate(3deg); }
+}
+
+@keyframes waveFlowReverse {
+  from { transform: translateX(3%) rotate(5deg); }
+  to   { transform: translateX(-3%) rotate(-4deg); }
+}
+
+/* Make the main portfolio card smaller */
+.hero-card {
+  width: 50%;
+  height: 390px;
+}
+
+/* Make the side cards slightly smaller too */
+.side-card {
+  width: 32%;
+  height: 270px;
+}
+
+/* Gentle circular floating movement */
+.hero-card {
+  animation: circularFloat 9s ease-in-out infinite;
+}
+
+@keyframes circularFloat {
+  0%   { transform: translate(0, 0) rotate(0deg); }
+  25%  { transform: translate(9px, -8px) rotate(1deg); }
+  50%  { transform: translate(0, -14px) rotate(0deg); }
+  75%  { transform: translate(-9px, -7px) rotate(-1deg); }
+  100% { transform: translate(0, 0) rotate(0deg); }
+}
+
+/* Keep the mobile layout properly sized */
+@media (max-width: 700px) {
+  .template-stage {
+    transform: none;
+  }
+
+  .hero-card {
+    width: 84%;
+    height: 330px;
+  }
+
+  .side-card {
+    width: 28%;
+    height: 230px;
+  }
+
+  .showcase::before,
+  .showcase::after {
+    height: 130px;
+  }
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  .hero-card,
+  .showcase::before,
+  .showcase::after {
+    animation: none !important;
+  }
+}
+
